@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Status Purchase Request Enterprise</title>
+    <style>
+        :root {
+            --bg-main: #0b1329;
+            --bg-card: #111c38;
+            --bg-input: #1a274a;
+            --border-color: #233563;
+            --primary-blue: #2563eb;
+            --primary-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 12px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 98%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-success {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .form-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-control {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: #38bdf8;
+        }
+
+        .form-control:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Area Tabel Penggulung (Scrollable) */
+        .table-container {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 280px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        /* Sticky Header dan Fitur Sortable */
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 10px 8px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            z-index: 2;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background-color: #2b394e;
+            color: #38bdf8;
+        }
+
+        /* Zebra Striping (Perbedaan Warna Background Per Baris) */
+        tbody tr:nth-child(odd) {
+            background-color: rgba(17, 28, 56, 0.4);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: rgba(30, 41, 59, 0.5);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(56, 189, 248, 0.1) !important;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: #cbd5e1;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-sudah {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .badge-belum {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .hide-element {
+            display: none !important;
+        }
+
+        /* PERBAIKAN TOAST: Tengah, Besar, dan Background Hijau */
+        #customToast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #059669;
+            /* Background Hijau */
+            border: 2px solid #34d399;
+            color: #ffffff;
+            padding: 18px 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 9999;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            min-width: 280px;
+            max-width: 90%;
+        }
+
+        #customToast.show {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 18px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 6px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .header-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .user-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-info .btn {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LOGIN BOX -->
+        <div id="loginBox" class="card" style="max-width: 380px; margin: 60px auto; width: 100%;">
+            <div class="form-title" style="text-align: center; font-size: 1.1rem;">Portal PR Enterprise</div>
+            <div id="loginAlert" class="hide-element"
+                style="color: #ef4444; font-size: 0.8rem; margin-bottom: 10px; text-align: center;"></div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label>Username</label>
+                <input type="text" id="username" class="form-control" placeholder="Masukkan username">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Masukkan password">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="login()">Login</button>
+
+            <div
+                style="text-align: center; margin-top: 18px; font-size: 0.75rem; color: var(--text-muted); font-style: italic;">
+                Created by Maintenance Engineering 2026
+            </div>
+        </div>
+
+        <!-- DASHBOARD UTAMA -->
+        <div id="dashboard" class="hide-element" style="display: flex; flex-direction: column; gap: 15px;">
+
+            <!-- HEADER -->
+            <div class="card header-box">
+                <div class="header-title">Realtime Status Purchase Request Enterprise</div>
+                <div class="user-info">
+                    <span>User: <b id="userDisplay"></b> <span id="roleDisplay"
+                            style="color: var(--text-muted);"></span></span>
+                    <button class="btn btn-danger" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- PANEL FORM PEMOHON -->
+            <div id="panelPemohon" class="card hide-element">
+                <div class="form-title">Form Ajukan Item PR Baru Lengkap</div>
+                <form id="formRequest" onsubmit="submitFormPRV2(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>No. WO</label>
+                            <input type="text" id="req_wo" class="form-control" placeholder="Contoh: WO-2026-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Cost Center WO</label>
+                            <input type="text" id="req_cc" class="form-control" placeholder="Contoh: CC-LOG-01">
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan Isi PR</label>
+                            <input type="text" id="req_keterangan" class="form-control"
+                                placeholder="Tulis rincian spesifikasi barang..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>No. PRT</label>
+                            <input type="text" id="req_prt" class="form-control" placeholder="Contoh: PRT-2026-001">
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Jumlah</label>
+                            <input type="number" id="req_jumlah" class="form-control" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>UOM (Satuan)</label>
+                            <input type="text" id="req_uom" class="form-control" placeholder="pcs, pack, set..."
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Estimasi Harga (Rp)</label>
+                            <input type="number" id="req_harga" class="form-control" placeholder="Masukkan angka saja">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Gambar Pendukung</label>
+                            <input type="file" id="req_file" class="form-control"
+                                onchange="tampilkanPratinjauGambar(this)">
+                        </div>
+                    </div>
+
+                    <div id="wrapperPreview" style="display: none; margin-bottom: 12px;">
+                        <img id="imagePreview" src="" alt="Preview"
+                            style="max-height: 100px; border-radius: 6px; border: 1px solid var(--border-color);">
+                    </div>
+
+                    <button type="submit" id="btnKirimPR" class="btn btn-success">Kirim Pengajuan PR</button>
+                </form>
+            </div>
+
+            <!-- TABEL DATA -->
+            <div class="card">
+                <div class="form-title">Tabel Result Purchase Request</div>
+
+                <!-- FILTER BAR -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Cari Nama Pengaju (Pemohon)</label>
+                        <input type="text" id="filter_pemohon" class="form-control" placeholder="Ketik nama pemohon..."
+                            oninput="jalankanFilterData()">
+                    </div>
+                    <div class="form-group">
+                        <label>Cari No. WO / Cost Center</label>
+                        <input type="text" id="filter_wo_cc" class="form-control" placeholder="Ketik No WO atau CC..."
+                            oninput="jalankanFilterData()">
+                    </div>
+                    <div class="form-group">
+                        <label>Cari Keterangan / No. PRT</label>
+                        <input type="text" id="filter_keterangan" class="form-control"
+                            placeholder="Cari nama barang / No PRT..." oninput="jalankanFilterData()">
+                    </div>
+                    <div class="form-group">
+                        <label>Filter Status PR</label>
+                        <select id="filter_status" class="form-control" onchange="jalankanFilterData()">
+                            <option value="">-- Semua Status --</option>
+                            <option value="Belum Dibuatkan">Belum Dibuatkan</option>
+                            <option value="Sudah Dibuatkan">Sudah Dibuatkan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th onclick="sortTabel('id')">No ID <span id="sort_id">▼</span></th>
+                                <th onclick="sortTabel('no_wo')">No WO <span id="sort_no_wo"></span></th>
+                                <th onclick="sortTabel('cost_center')">Cost Center <span id="sort_cost_center"></span>
+                                </th>
+                                <th onclick="sortTabel('keterangan')">Keterangan Isi <span id="sort_keterangan"></span>
+                                </th>
+                                <th onclick="sortTabel('no_prt')">No. PRT <span id="sort_no_prt"></span></th>
+                                <th onclick="sortTabel('jumlah')">Jumlah <span id="sort_jumlah"></span></th>
+                                <th onclick="sortTabel('uom')">UOM <span id="sort_uom"></span></th>
+                                <th onclick="sortTabel('harga')">Harga <span id="sort_harga"></span></th>
+                                <th onclick="sortTabel('pemohon')">Pemohon <span id="sort_pemohon"></span></th>
+                                <th onclick="sortTabel('ts_pemohon')">Timestamp <span id="sort_ts_pemohon"></span></th>
+                                <th onclick="sortTabel('pembuat')">Pembuat <span id="sort_pembuat"></span></th>
+                                <th onclick="sortTabel('ts_pembuat')">Timestamp Buat <span id="sort_ts_pembuat"></span>
+                                </th>
+                                <th onclick="sortTabel('no_pr')">No PR <span id="sort_no_pr"></span></th>
+                                <th>File</th>
+                                <th onclick="sortTabel('status')">Status <span id="sort_status"></span></th>
+                                <th id="thAksi" style="cursor: default;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelBody">
+                            <!-- Data dirender via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div
+                style="text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+                Created by Maintenance Engineering 2026
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL EDIT -->
+    <div id="editModal" class="modal hide-element">
+        <div class="modal-content">
+            <div class="form-title">Update Data PR</div>
+            <input type="hidden" id="edit_rowId">
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>No. WO</label>
+                <input type="text" id="edit_wo" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>Cost Center</label>
+                <input type="text" id="edit_cc" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>Keterangan</label>
+                <input type="text" id="edit_keterangan" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>No. PRT</label>
+                <input type="text" id="edit_prt" class="form-control">
+            </div>
+            <div class="form-grid" style="margin-bottom: 8px;">
+                <div class="form-group">
+                    <label>Jumlah</label>
+                    <input type="number" id="edit_jumlah" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>UOM</label>
+                    <input type="text" id="edit_uom" class="form-control">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>Harga</label>
+                <input type="number" id="edit_harga" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label>No. PR</label>
+                <input type="text" id="edit_pr" class="form-control" placeholder="Masukkan Nomor PR">
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label>Status</label>
+                <select id="edit_status" class="form-control">
+                    <option value="Belum Dibuatkan">Belum Dibuatkan</option>
+                    <option value="Sudah Dibuatkan">Sudah Dibuatkan</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                <button class="btn btn-danger" onclick="tutupModalEdit()">Batal</button>
+                <button class="btn btn-success" onclick="simpanPerubahan()">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFIKASI -->
+    <div id="customToast"></div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbz2EiBPJENamUEA5ghcmPQbOvF6v-vyEL81mL9yzFJd0fggmYCHCC7QaRaoHpCvH5EP4Q/exec";
+
+        let currentUser = "";
+        let currentRole = "";
+        let localDataCache = [];
+        let refreshTimer;
+
+        // Variabel Pengatur Pengurutan (Default ID Terbesar / DESC)
+        let sortColumn = "id";
+        let sortAscending = false;
+
+        async function callAPI(payload) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                return await response.json();
+            } catch (err) {
+                console.error("API Error:", err);
+                return { success: false, message: "Gagal terhubung ke server Google!" };
+            }
+        }
+
+        function tampilkanNotifikasi(pesan) {
+            const toast = document.getElementById("customToast");
+            if (toast) {
+                toast.innerText = pesan;
+                toast.classList.add("show");
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            } else {
+                alert(pesan);
+            }
+        }
+
+        function tampilkanPratinjauGambar(input) {
+            const wrapper = document.getElementById("wrapperPreview");
+            const preview = document.getElementById("imagePreview");
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        wrapper.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    wrapper.style.display = "none";
+                    preview.src = "";
+                }
+            } else {
+                wrapper.style.display = "none";
+                preview.src = "";
+            }
+        }
+
+        async function login() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+            const alertBox = document.getElementById("loginAlert");
+            alertBox.classList.add("hide-element");
+
+            if (!user || !pass) {
+                alertBox.innerText = "Username dan Password tidak boleh kosong!";
+                alertBox.classList.remove("hide-element");
+                return;
+            }
+
+            const res = await callAPI({
+                action: "checkLogin",
+                username: user,
+                password: pass
+            });
+
+            if (res && res.success) {
+                currentUser = res.username;
+                currentRole = res.role;
+
+                document.getElementById("loginBox").classList.add("hide-element");
+                document.getElementById("dashboard").classList.remove("hide-element");
+                document.getElementById("userDisplay").innerText = currentUser;
+                document.getElementById("roleDisplay").innerText = `(${currentRole})`;
+
+                const roleClean = String(currentRole).trim().toLowerCase();
+
+                if (roleClean === "pemohon") {
+                    document.getElementById("panelPemohon").classList.remove("hide-element");
+                } else {
+                    document.getElementById("panelPemohon").classList.add("hide-element");
+                }
+
+                document.getElementById("thAksi").classList.remove("hide-element");
+
+                document.getElementById("filter_pemohon").value = "";
+                document.getElementById("filter_wo_cc").value = "";
+                document.getElementById("filter_keterangan").value = "";
+                document.getElementById("filter_status").value = "";
+
+                await loadDataRealtime();
+                refreshTimer = setInterval(loadDataRealtime, 10000);
+            } else {
+                alertBox.innerText = (res && res.message) ? res.message : "Login gagal!";
+                alertBox.classList.remove("hide-element");
+            }
+        }
+
+        async function loadDataRealtime() {
+            if (!currentUser) return;
+
+            const res = await callAPI({
+                action: "getRealtimeDataBackend",
+                currentUser: currentUser,
+                currentRole: currentRole
+            });
+
+            if (Array.isArray(res)) {
+                localDataCache = res;
+            } else if (res && Array.isArray(res.data)) {
+                localDataCache = res.data;
+            } else {
+                localDataCache = [];
+            }
+
+            jalankanFilterData();
+        }
+
+        // Fungsi Manual Sort saat Judul Kolom Diklik
+        function sortTabel(column) {
+            if (sortColumn === column) {
+                sortAscending = !sortAscending;
+            } else {
+                sortColumn = column;
+                sortAscending = true;
+            }
+            jalankanFilterData();
+        }
+
+        function updateSortIndicators() {
+            const columns = ['id', 'no_wo', 'cost_center', 'keterangan', 'no_prt', 'jumlah', 'uom', 'harga', 'pemohon', 'ts_pemohon', 'pembuat', 'ts_pembuat', 'no_pr', 'status'];
+            columns.forEach(col => {
+                const el = document.getElementById(`sort_${col}`);
+                if (el) {
+                    if (col === sortColumn) {
+                        el.innerText = sortAscending ? " ▲" : " ▼";
+                    } else {
+                        el.innerText = "";
+                    }
+                }
+            });
+        }
+
+        function jalankanFilterData() {
+            const valPemohon = (document.getElementById("filter_pemohon")?.value || "").toLowerCase().trim();
+            const valWoCc = (document.getElementById("filter_wo_cc")?.value || "").toLowerCase().trim();
+            const valKeterangan = (document.getElementById("filter_keterangan")?.value || "").toLowerCase().trim();
+            const valStatus = document.getElementById("filter_status")?.value || "";
+
+            const tbody = document.getElementById("tabelBody");
+            if (!tbody) return;
+
+            tbody.innerHTML = "";
+
+            if (!Array.isArray(localDataCache)) {
+                localDataCache = [];
+            }
+
+            // 1. Filtering Data
+            let filteredData = localDataCache.filter(item => {
+                if (!item) return false;
+                const pemohonStr = String(item.pemohon || "").toLowerCase();
+                const woStr = String(item.no_wo || "").toLowerCase();
+                const ccStr = String(item.cost_center || "").toLowerCase();
+                const ketStr = String(item.keterangan || "").toLowerCase();
+                const prtStr = String(item.no_prt || "").toLowerCase();
+                const statusStr = String(item.status || "");
+
+                const matchPemohon = pemohonStr.includes(valPemohon);
+                const matchWoCc = woStr.includes(valWoCc) || ccStr.includes(valWoCc);
+                const matchKeterangan = ketStr.includes(valKeterangan) || prtStr.includes(valKeterangan);
+                const matchStatus = valStatus === "" || statusStr === valStatus;
+
+                return matchPemohon && matchWoCc && matchKeterangan && matchStatus;
+            });
+
+            // 2. Sorting Data (Termasuk Logika Angka vs Teks)
+            filteredData.sort((a, b) => {
+                let valA = a[sortColumn] !== undefined && a[sortColumn] !== null ? a[sortColumn] : "";
+                let valB = b[sortColumn] !== undefined && b[sortColumn] !== null ? b[sortColumn] : "";
+
+                if (!isNaN(valA) && !isNaN(valB) && valA !== "" && valB !== "") {
+                    valA = Number(valA);
+                    valB = Number(valB);
+                } else {
+                    valA = String(valA).toLowerCase();
+                    valB = String(valB).toLowerCase();
+                }
+
+                if (valA < valB) return sortAscending ? -1 : 1;
+                if (valA > valB) return sortAscending ? 1 : -1;
+                return 0;
+            });
+
+            updateSortIndicators();
+
+            const visibleCols = document.querySelectorAll("table thead th:not(.hide-element)").length || 16;
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${visibleCols}" style="text-align: center; color: var(--text-muted); padding: 20px;">Data tidak ditemukan.</td></tr>`;
+                return;
+            }
+
+            // 3. Render Baris Tabel
+            filteredData.forEach(item => {
+                try {
+                    const rawStatus = String(item.status || "Belum Dibuatkan").trim();
+                    const isSudah = rawStatus.toLowerCase() === "sudah dibuatkan";
+                    const badgeClass = isSudah ? "badge-sudah" : "badge-belum";
+
+                    let actionBtn = "";
+                    if (!isSudah) {
+                        actionBtn = `<td style="text-align:center;"><button class="btn btn-warning" onclick="bukaModalEdit(${item.rowId})">Edit</button></td>`;
+                    } else {
+                        actionBtn = `<td style="text-align:center; color: var(--text-muted); font-style: italic;">Selesai</td>`;
+                    }
+
+                    let hargaFormatted = "-";
+                    if (item.harga !== undefined && item.harga !== null && item.harga !== "" && item.harga !== 0) {
+                        const numHarga = Number(item.harga);
+                        hargaFormatted = !isNaN(numHarga) ? "Rp " + numHarga.toLocaleString('id-ID') : item.harga;
+                    }
+
+                    const linkFile = item.link_file || "-";
+                    const fileLinkBtn = (linkFile && linkFile !== "-")
+                        ? `<a href="${linkFile}" target="_blank" style="color:#38bdf8; text-decoration:underline;">Lihat File</a>`
+                        : "-";
+
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td><b>#${item.id !== undefined ? item.id : '-'}</b></td>
+                        <td>${item.no_wo || '-'}</td>
+                        <td>${item.cost_center || '-'}</td>
+                        <td>${item.keterangan || '-'}</td>
+                        <td>${item.no_prt || '-'}</td>
+                        <td>${item.jumlah !== undefined ? item.jumlah : 0}</td>
+                        <td><span style="color:var(--text-muted); font-size:11px; font-weight:600; text-transform:uppercase;">${item.uom || '-'}</span></td>
+                        <td>${hargaFormatted}</td>
+                        <td>${item.pemohon || '-'}</td>
+                        <td style="color: var(--text-muted); font-size:11px;">${item.ts_pemohon || '-'}</td>
+                        <td>${item.pembuat || '-'}</td>
+                        <td style="color: var(--text-muted); font-size:11px;">${item.ts_pembuat || '-'}</td>
+                        <td>${item.no_pr || '-'}</td>
+                        <td>${fileLinkBtn}</td>
+                        <td><span class="badge ${badgeClass}">${rawStatus}</span></td>
+                        ${actionBtn}
+                    `;
+                    tbody.appendChild(tr);
+                } catch (err) {
+                    console.error("Error rendering row:", err, item);
+                }
+            });
+        }
+
+        async function submitFormPRV2(e) {
+            if (e) e.preventDefault();
+            const btnKirim = document.getElementById("btnKirimPR");
+            const textAwalBtn = btnKirim.innerText;
+            btnKirim.innerText = "Memproses...";
+            btnKirim.disabled = true;
+
+            const payload = {
+                no_wo: document.getElementById("req_wo").value,
+                cost_center: document.getElementById("req_cc").value,
+                keterangan: document.getElementById("req_keterangan").value,
+                no_prt: document.getElementById("req_prt").value,
+                jumlah: document.getElementById("req_jumlah").value,
+                uom: document.getElementById("req_uom").value,
+                harga: document.getElementById("req_harga").value
+            };
+
+            const fileInput = document.getElementById("req_file");
+            let fileObj = null;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const base64Content = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+                    reader.readAsDataURL(file);
+                });
+                fileObj = {
+                    base64Str: base64Content,
+                    mimeType: file.type,
+                    name: file.name
+                };
+            }
+
+            const res = await callAPI({
+                action: "tambahPRV2",
+                payload: payload,
+                fileObj: fileObj,
+                currentUser: currentUser
+            });
+
+            if (res && res.success) {
+                tampilkanNotifikasi("Berhasil Mengajukan PR!");
+                document.getElementById("formRequest").reset();
+                const wrapperPreview = document.getElementById("wrapperPreview");
+                if (wrapperPreview) wrapperPreview.style.display = "none";
+                await loadDataRealtime();
+            } else {
+                alert((res && res.message) ? res.message : "Gagal mengajukan PR");
+            }
+
+            btnKirim.innerText = textAwalBtn;
+            btnKirim.disabled = false;
+        }
+
+        function bukaModalEdit(rowId) {
+            const item = localDataCache.find(x => x.rowId === rowId);
+            if (!item) return;
+
+            if (String(item.status || "").trim().toLowerCase() === "sudah dibuatkan") {
+                tampilkanNotifikasi("Data ini sudah dibuatkan PR dan tidak dapat diubah lagi!");
+                return;
+            }
+
+            document.getElementById("edit_rowId").value = item.rowId;
+            document.getElementById("edit_wo").value = item.no_wo || "";
+            document.getElementById("edit_cc").value = item.cost_center || "";
+            document.getElementById("edit_keterangan").value = item.keterangan || "";
+            document.getElementById("edit_prt").value = item.no_prt || "";
+            document.getElementById("edit_jumlah").value = item.jumlah || "";
+            document.getElementById("edit_uom").value = item.uom || "";
+            document.getElementById("edit_harga").value = item.harga || "";
+            document.getElementById("edit_pr").value = item.no_pr || "";
+            document.getElementById("edit_status").value = item.status || "Belum Dibuatkan";
+
+            const roleClean = String(currentRole || "").trim().toLowerCase();
+            const isPemohon = roleClean === "pemohon";
+
+            document.getElementById("edit_pr").disabled = isPemohon;
+            document.getElementById("edit_status").disabled = isPemohon;
+
+            document.getElementById("editModal").classList.remove("hide-element");
+        }
+
+        function tutupModalEdit() {
+            document.getElementById("editModal").classList.add("hide-element");
+        }
+
+        async function simpanPerubahan() {
+            const payload = {
+                rowId: document.getElementById("edit_rowId").value,
+                no_wo: document.getElementById("edit_wo").value,
+                cost_center: document.getElementById("edit_cc").value,
+                keterangan: document.getElementById("edit_keterangan").value,
+                no_prt: document.getElementById("edit_prt").value,
+                jumlah: document.getElementById("edit_jumlah").value,
+                uom: document.getElementById("edit_uom").value,
+                harga: document.getElementById("edit_harga").value,
+                no_pr: document.getElementById("edit_pr").value,
+                status: document.getElementById("edit_status").value
+            };
+
+            const res = await callAPI({
+                action: "updatePRByPembuat",
+                payload: payload,
+                currentUser: currentUser
+            });
+
+            if (res && res.success) {
+                tampilkanNotifikasi("Data PR Berhasil Diupdate!");
+                tutupModalEdit();
+                await loadDataRealtime();
+            } else {
+                alert((res && res.message) ? res.message : "Gagal memperbarui data!");
+            }
+        }
+
+        function logout() {
+            clearInterval(refreshTimer);
+            currentUser = "";
+            currentRole = "";
+            localDataCache = [];
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("dashboard").classList.add("hide-element");
+            document.getElementById("loginBox").classList.remove("hide-element");
+            tampilkanNotifikasi("Anda telah berhasil keluar dari sistem.");
+        }
+    </script>
+</body>
+
+</html>

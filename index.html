@@ -293,7 +293,7 @@
             padding: 18px;
             border-radius: 8px;
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -371,7 +371,7 @@
                 </div>
             </div>
 
-            <!-- PANEL FORM PEMOHON (SUDAH SESUAI DENGAN KOLOM C - I) -->
+            <!-- PANEL FORM PEMOHON -->
             <div id="panelPemohon" class="card hide-element">
                 <div class="form-title">Form Ajukan Item PR Baru Lengkap</div>
                 <form id="formRequest" onsubmit="submitFormPRV2(event)">
@@ -418,7 +418,7 @@
                         <div class="form-group">
                             <label>Upload Gambar Pendukung</label>
                             <input type="file" id="req_file" class="form-control"
-                                onchange="tampilkanPratinjauGambar(this)">
+                                onchange="tampilkanPratinjauGambar(this, 'wrapperPreview', 'imagePreview')">
                         </div>
                     </div>
 
@@ -462,7 +462,7 @@
                     </div>
                 </div>
 
-                <!-- TABLE SESUAI URUTAN BARU A - P -->
+                <!-- TABLE -->
                 <div class="table-container">
                     <table>
                         <thead>
@@ -505,11 +505,13 @@
 
     </div>
 
-    <!-- MODAL EDIT -->
+    <!-- MODAL EDIT DATA -->
     <div id="editModal" class="modal hide-element">
         <div class="modal-content">
             <div class="form-title">Update Data PR</div>
             <input type="hidden" id="edit_rowId">
+            <input type="hidden" id="edit_deleteFileFlag" value="false">
+
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>No. WO</label>
                 <input type="text" id="edit_wo" class="form-control">
@@ -523,7 +525,7 @@
                 <input type="text" id="edit_spesifikasi" class="form-control">
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
-                <label>Keterangan</label>
+                <label>Keterangan Material</label>
                 <input type="text" id="edit_keterangan" class="form-control">
             </div>
             <div class="form-group" style="margin-bottom: 8px;">
@@ -544,6 +546,33 @@
                 <label>Harga</label>
                 <input type="number" id="edit_harga" class="form-control">
             </div>
+
+            <!-- MANAJEMEN FILE/GAMBAR MODAL -->
+            <div class="form-group"
+                style="margin-bottom: 12px; border: 1px dashed var(--border-color); padding: 10px; border-radius: 6px;">
+                <label style="color: #38bdf8; font-weight: 600;">File/Gambar Pendukung</label>
+
+                <!-- Status File Saat Ini -->
+                <div id="edit_fileCurrentBox"
+                    style="margin-top: 4px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span>Status File: <a id="edit_fileCurrentLink" href="#" target="_blank"
+                            style="color:#38bdf8; text-decoration:underline;">-</a></span>
+                    <button type="button" id="edit_btnDeleteFile" class="btn btn-danger"
+                        style="padding: 3px 8px; font-size: 0.72rem;" onclick="tandaiHapusFile()">Hapus File</button>
+                </div>
+
+                <!-- Input Upload File Baru -->
+                <div style="margin-top: 8px;">
+                    <label style="font-size: 0.72rem; color: var(--text-muted);">Ganti / Upload File Baru:</label>
+                    <input type="file" id="edit_fileInput" class="form-control" style="margin-top:2px;"
+                        onchange="tampilkanPratinjauGambar(this, 'wrapperEditPreview', 'imageEditPreview')">
+                </div>
+
+                <div id="wrapperEditPreview" style="display: none; margin-top: 8px;">
+                    <img id="imageEditPreview" src="" alt="Preview" style="max-height: 80px; border-radius: 4px;">
+                </div>
+            </div>
+
             <div class="form-group" style="margin-bottom: 8px;">
                 <label>No. PR</label>
                 <input type="text" id="edit_pr" class="form-control" placeholder="Masukkan Nomor PR">
@@ -557,7 +586,7 @@
             </div>
             <div style="display: flex; justify-content: flex-end; gap: 8px;">
                 <button class="btn btn-danger" onclick="tutupModalEdit()">Batal</button>
-                <button class="btn btn-success" onclick="simpanPerubahan()">Simpan Perubahan</button>
+                <button class="btn btn-success" id="btnSimpanEdit" onclick="simpanPerubahan()">Simpan Perubahan</button>
             </div>
         </div>
     </div>
@@ -605,9 +634,9 @@
             }
         }
 
-        function tampilkanPratinjauGambar(input) {
-            const wrapper = document.getElementById("wrapperPreview");
-            const preview = document.getElementById("imagePreview");
+        function tampilkanPratinjauGambar(input, wrapperId, imgId) {
+            const wrapper = document.getElementById(wrapperId);
+            const preview = document.getElementById(imgId);
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 if (file.type.startsWith('image/')) {
@@ -806,7 +835,6 @@
 
                     const tr = document.createElement("tr");
 
-                    // RENDER CELL DENGAN URUTAN PERSIS DENGAN KOLOM SHEETS (A s.d. P)
                     tr.innerHTML = `
                         <td><b>#${item.id !== undefined ? item.id : '-'}</b></td>
                         <td>${item.no_wo || '-'}</td>
@@ -910,6 +938,25 @@
             document.getElementById("edit_pr").value = item.no_pr || "";
             document.getElementById("edit_status").value = item.status || "Belum Dibuatkan";
 
+            // Reset manajemen file
+            document.getElementById("edit_deleteFileFlag").value = "false";
+            document.getElementById("edit_fileInput").value = "";
+            document.getElementById("wrapperEditPreview").style.display = "none";
+
+            const fileLink = item.link_file || "";
+            const fileCurrentLink = document.getElementById("edit_fileCurrentLink");
+            const btnDeleteFile = document.getElementById("edit_btnDeleteFile");
+
+            if (fileLink && fileLink !== "-") {
+                fileCurrentLink.innerText = "Lihat File Terlampir";
+                fileCurrentLink.href = fileLink;
+                btnDeleteFile.style.display = "inline-block";
+            } else {
+                fileCurrentLink.innerText = "Tidak ada file";
+                fileCurrentLink.removeAttribute("href");
+                btnDeleteFile.style.display = "none";
+            }
+
             const roleClean = String(currentRole || "").trim().toLowerCase();
             const isPemohon = roleClean === "pemohon";
 
@@ -919,11 +966,42 @@
             document.getElementById("editModal").classList.remove("hide-element");
         }
 
+        function tandaiHapusFile() {
+            document.getElementById("edit_deleteFileFlag").value = "true";
+            const fileCurrentLink = document.getElementById("edit_fileCurrentLink");
+            fileCurrentLink.innerText = "Akan dihapus saat disimpan";
+            fileCurrentLink.style.color = "#ef4444";
+            document.getElementById("edit_btnDeleteFile").style.display = "none";
+        }
+
         function tutupModalEdit() {
             document.getElementById("editModal").classList.add("hide-element");
         }
 
         async function simpanPerubahan() {
+            const btnSimpan = document.getElementById("btnSimpanEdit");
+            const textAwal = btnSimpan.innerText;
+            btnSimpan.innerText = "Menyimpan...";
+            btnSimpan.disabled = true;
+
+            const deleteFile = document.getElementById("edit_deleteFileFlag").value === "true";
+            const fileInput = document.getElementById("edit_fileInput");
+            let fileObj = null;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const base64Content = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+                    reader.readAsDataURL(file);
+                });
+                fileObj = {
+                    base64Str: base64Content,
+                    mimeType: file.type,
+                    name: file.name
+                };
+            }
+
             const payload = {
                 rowId: document.getElementById("edit_rowId").value,
                 no_wo: document.getElementById("edit_wo").value,
@@ -935,12 +1013,14 @@
                 uom: document.getElementById("edit_uom").value,
                 harga: document.getElementById("edit_harga").value,
                 no_pr: document.getElementById("edit_pr").value,
-                status: document.getElementById("edit_status").value
+                status: document.getElementById("edit_status").value,
+                deleteFile: deleteFile
             };
 
             const res = await callAPI({
                 action: "updatePRByPembuat",
                 payload: payload,
+                fileObj: fileObj,
                 currentUser: currentUser
             });
 
@@ -951,6 +1031,9 @@
             } else {
                 alert((res && res.message) ? res.message : "Gagal memperbarui data!");
             }
+
+            btnSimpan.innerText = textAwal;
+            btnSimpan.disabled = false;
         }
 
         function logout() {

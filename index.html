@@ -751,10 +751,10 @@
         }
 
         function jalankanFilterData() {
-            const valPemohon = (document.getElementById("filter_pemohon")?.value || "").toLowerCase().trim();
-            const valWoCc = (document.getElementById("filter_wo_cc")?.value || "").toLowerCase().trim();
-            const valKeterangan = (document.getElementById("filter_keterangan")?.value || "").toLowerCase().trim();
-            const valStatus = document.getElementById("filter_status")?.value || "";
+            const valPemohon = (document.getElementById("filter_pemohon").value || "").toLowerCase().trim();
+            const valWoCc = (document.getElementById("filter_wo_cc").value || "").toLowerCase().trim();
+            const valKeterangan = (document.getElementById("filter_keterangan").value || "").toLowerCase().trim();
+            const valStatus = document.getElementById("filter_status").value || "";
 
             const tbody = document.getElementById("tabelBody");
             if (!tbody) return;

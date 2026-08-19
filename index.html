@@ -10,29 +10,28 @@
             --bg-main: #0b1329;
             --bg-card: #111c38;
             --bg-input: #1a274a;
-            --border-color: #233563;
-            --primary-blue: #2563eb;
-            --primary-green: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --border: #233563;
+            --blue: #2563eb;
+            --green: #10b981;
+            --text: #f8fafc;
+            --muted: #94a3b8;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background: var(--bg-main);
+            color: var(--text);
             padding: 12px;
         }
 
         .container {
-            width: 100%;
-            max-width: 98%;
+            width: 98%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -40,11 +39,11 @@
         }
 
         .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 15px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         .header-box {
@@ -75,40 +74,27 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.85rem;
-            transition: all 0.2s;
             white-space: nowrap;
         }
 
         .btn-danger {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #dc2626;
+            background: #ef4444;
+            color: #fff;
         }
 
         .btn-success {
-            background-color: var(--primary-green);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #059669;
+            background: var(--green);
+            color: #fff;
         }
 
         .btn-warning {
-            background-color: #f59e0b;
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background-color: #d97706;
+            background: #f59e0b;
+            color: #fff;
         }
 
         .btn-primary {
-            background-color: var(--primary-blue);
-            color: white;
+            background: var(--blue);
+            color: #fff;
         }
 
         .form-title {
@@ -133,83 +119,86 @@
 
         .form-group label {
             font-size: 0.78rem;
-            color: var(--text-muted);
+            color: var(--muted);
             font-weight: 500;
         }
 
         .form-control {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text);
             padding: 8px 10px;
             border-radius: 6px;
             font-size: 0.85rem;
             outline: none;
             width: 100%;
+            text-transform: uppercase;
         }
 
-        .form-control:focus {
-            border-color: #38bdf8;
+        #username,
+        #password,
+        input[type="password"],
+        input[type="file"] {
+            text-transform: none !important;
         }
 
-        .form-control:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .form-control::placeholder {
+            color: #64748b;
+            font-style: italic;
+            opacity: 0.8;
+            text-transform: none;
         }
 
-        /* Area Tabel Penggulung */
         .table-container {
             overflow-x: auto;
-            overflow-y: auto;
             max-height: 400px;
             margin-top: 10px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             border-radius: 6px;
-            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.8rem;
-            text-align: left;
             white-space: nowrap;
         }
 
         th {
             position: sticky;
             top: 0;
-            background-color: #1e293b;
+            background: #1e293b;
             color: #f8fafc;
             padding: 10px 8px;
             font-weight: 600;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border);
             z-index: 2;
             cursor: pointer;
-            user-select: none;
-        }
-
-        th:hover {
-            background-color: #2b394e;
-            color: #38bdf8;
-        }
-
-        tbody tr:nth-child(odd) {
-            background-color: rgba(17, 28, 56, 0.4);
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: rgba(30, 41, 59, 0.5);
-        }
-
-        tbody tr:hover {
-            background-color: rgba(56, 189, 248, 0.1) !important;
         }
 
         td {
             padding: 8px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
             color: #cbd5e1;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .txt-wo {
+            color: #facc15;
+            font-weight: 600;
+        }
+
+        .txt-prt {
+            color: #18e08c;
+            font-weight: 600;
+        }
+
+        .txt-pr {
+            color: #f472b6;
+            font-weight: 600;
         }
 
         .badge {
@@ -217,17 +206,16 @@
             border-radius: 4px;
             font-size: 0.72rem;
             font-weight: 600;
-            display: inline-block;
         }
 
         .badge-sudah {
-            background-color: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.2);
             color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.4);
         }
 
         .badge-belum {
-            background-color: rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.2);
             color: #fbbf24;
             border: 1px solid rgba(245, 158, 11, 0.4);
         }
@@ -241,36 +229,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #059669;
+            background: #059669;
             border: 2px solid #34d399;
-            color: #ffffff;
+            color: #fff;
             padding: 18px 30px;
             border-radius: 12px;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
             display: none;
             z-index: 9999;
-            font-size: 1.1rem;
             font-weight: 700;
             text-align: center;
-            min-width: 280px;
-            max-width: 90%;
         }
 
         #customToast.show {
             display: block;
-            animation: fadeIn 0.2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -45%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
         }
 
         .modal {
@@ -279,7 +250,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.75);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -288,8 +259,8 @@
         }
 
         .modal-content {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             padding: 18px;
             border-radius: 8px;
             width: 100%;
@@ -298,23 +269,30 @@
             overflow-y: auto;
         }
 
+        .login-icon-box {
+            text-align: center;
+            margin: 10px 0 15px 0;
+        }
+
+        .login-icon-box svg {
+            width: 64px;
+            height: 64px;
+            fill: none;
+            stroke: #38bdf8;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 6px;
             }
 
-            .container {
-                max-width: 100%;
-            }
-
             .header-box {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-
-            .user-info {
-                width: 100%;
-                justify-content: space-between;
             }
 
             .form-grid {
@@ -325,144 +303,103 @@
                 width: 100%;
                 text-align: center;
             }
-
-            .user-info .btn {
-                width: auto;
-            }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-
         <!-- LOGIN BOX -->
-        <div id="loginBox" class="card" style="max-width: 380px; margin: 60px auto; width: 100%;">
-            <div class="form-title" style="text-align: center; font-size: 1.1rem;">Portal PR Enterprise</div>
+        <div id="loginBox" class="card" style="max-width: 380px; margin: 50px auto;">
+            <div class="form-title" style="text-align: center; font-size: 1.1rem; color: #de2251;">Portal PR Enterprise
+            </div>
+            <div class="login-icon-box">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+            </div>
             <div id="loginAlert" class="hide-element"
                 style="color: #ef4444; font-size: 0.8rem; margin-bottom: 10px; text-align: center;"></div>
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label>Username</label>
-                <input type="text" id="username" class="form-control" placeholder="Masukkan username">
-            </div>
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label>Password</label>
-                <input type="password" id="password" class="form-control" placeholder="Masukkan password">
-            </div>
-            <button class="btn btn-primary" style="width: 100%;" onclick="login()">Login</button>
-
+            <div class="form-group" style="margin-bottom: 12px;"><label>Username</label><input type="text" id="username"
+                    class="form-control" placeholder="Masukkan username"></div>
+            <div class="form-group" style="margin-bottom: 20px;"><label>Password</label><input type="password"
+                    id="password" class="form-control" placeholder="Masukkan password"
+                    onkeydown="if(event.key==='Enter') login()"></div>
+            <button class="btn btn-primary" id="btnLogin" style="width: 100%;" onclick="login()">Login</button>
             <div
-                style="text-align: center; margin-top: 18px; font-size: 0.75rem; color: var(--text-muted); font-style: italic;">
-                Created by Maintenance Engineering 2026
-            </div>
+                style="text-align: center; margin-top: 18px; font-size: 0.75rem; color: var(--muted); font-style: italic;">
+                Created by Maintenance Engineering 2026</div>
         </div>
 
         <!-- DASHBOARD UTAMA -->
         <div id="dashboard" class="hide-element" style="display: flex; flex-direction: column; gap: 15px;">
-
-            <!-- HEADER -->
             <div class="card header-box">
                 <div class="header-title">Realtime Status Purchase Request Enterprise</div>
                 <div class="user-info">
                     <span>User: <b id="userDisplay"></b> <span id="roleDisplay"
-                            style="color: var(--text-muted);"></span></span>
+                            style="color: var(--muted);"></span></span>
                     <button class="btn btn-danger" onclick="logout()">Logout</button>
                 </div>
             </div>
 
-            <!-- PANEL FORM PEMOHON -->
             <div id="panelPemohon" class="card hide-element">
                 <div class="form-title">Form Ajukan Item PR Baru Lengkap</div>
                 <form id="formRequest" onsubmit="submitFormPRV2(event)">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label>No. WO</label>
-                            <input type="text" id="req_wo" class="form-control" placeholder="26081234">
-                        </div>
-                        <div class="form-group">
-                            <label>Cost Center WO</label>
-                            <input type="text" id="req_cc" class="form-control" placeholder="1201200210">
-                        </div>
-                        <div class="form-group">
-                            <label>Spesifikasi Material</label>
-                            <input type="text" id="req_spesifikasi" class="form-control"
-                                placeholder="Nama Material, Detail tipe, seri, dan lainnya..." required>
-                        </div>
-                        <div class="form-group">
-                            <label>Keterangan Tambahan / Untuk</label>
-                            <input type="text" id="req_keterangan" class="form-control"
-                                placeholder="Tujuan pemakaian / peruntukan / keperluan...">
-                        </div>
+                        <div class="form-group"><label>No. WO</label><input type="text" id="req_wo" class="form-control"
+                                placeholder="26050336"></div>
+                        <div class="form-group"><label>Cost Center WO</label><input type="text" id="req_cc"
+                                class="form-control" placeholder="1201200320"></div>
+                        <div class="form-group"><label>Spesifikasi Material</label><input type="text"
+                                id="req_spesifikasi" class="form-control" placeholder="Bearing 6204 ZZ" required></div>
+                        <div class="form-group"><label>Keterangan Tambahan / Untuk</label><input type="text"
+                                id="req_keterangan" class="form-control" placeholder="Perbaikan Mesin Conveyor"></div>
                     </div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label>No. PRT</label>
-                            <input type="text" id="req_prt" class="form-control" placeholder="1005360">
-                        </div>
-                        <div class="form-group">
-                            <label>Jumlah</label>
-                            <input type="number" id="req_jumlah" class="form-control" value="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label>UOM (Satuan)</label>
-                            <input type="text" id="req_uom" class="form-control" placeholder="pcs, pack, set..."
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label>Estimasi Harga (Rp)</label>
-                            <input type="number" id="req_harga" class="form-control" placeholder="Masukkan angka saja">
-                        </div>
+                        <div class="form-group"><label>No. PRT</label><input type="text" id="req_prt"
+                                class="form-control" placeholder="1005682"></div>
+                        <div class="form-group"><label>Jumlah</label><input type="number" id="req_jumlah"
+                                class="form-control" placeholder="0" required></div>
+                        <div class="form-group"><label>UOM (Satuan)</label><input type="text" id="req_uom"
+                                class="form-control" placeholder="PCS, SET, MTR" required></div>
+                        <div class="form-group"><label>Estimasi Harga (Rp)</label><input type="number" id="req_harga"
+                                class="form-control" placeholder="150000"></div>
                     </div>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label>Upload Gambar Pendukung</label>
-                            <input type="file" id="req_file" class="form-control"
-                                onchange="tampilkanPratinjauGambar(this, 'wrapperPreview', 'imagePreview')">
-                        </div>
+                        <div class="form-group"><label>Upload Gambar / Document (Bisa Banyak)</label><input type="file"
+                                id="req_file" class="form-control" multiple
+                                onchange="tampilkanPratinjauGambar(this, 'wrapperPreview', 'imagePreview')"></div>
                     </div>
-
-                    <div id="wrapperPreview" style="display: none; margin-bottom: 12px;">
-                        <img id="imagePreview" src="" alt="Preview"
-                            style="max-height: 100px; border-radius: 6px; border: 1px solid var(--border-color);">
-                    </div>
-
+                    <div id="wrapperPreview" style="display: none; margin-bottom: 12px;"><img id="imagePreview" src=""
+                            alt="Preview" style="max-height: 100px; border-radius: 6px;"></div>
                     <button type="submit" id="btnKirimPR" class="btn btn-success">Kirim Pengajuan PR</button>
                 </form>
             </div>
 
-            <!-- TABEL DATA -->
             <div class="card">
                 <div class="form-title">Tabel Result Purchase Request</div>
-
-                <!-- FILTER BAR -->
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Cari Nama Pengaju (Pemohon)</label>
-                        <input type="text" id="filter_pemohon" class="form-control" placeholder="Ketik nama pemohon..."
-                            oninput="jalankanFilterData()">
+                    <div class="form-group"><label>Cari Pemohon</label><input type="text" id="filter_pemohon"
+                            class="form-control" placeholder="Ketik nama pemohon..." oninput="jalankanFilterData()">
                     </div>
-                    <div class="form-group">
-                        <label>Cari No. WO / Cost Center</label>
-                        <input type="text" id="filter_wo_cc" class="form-control" placeholder="Ketik No WO atau CC..."
-                            oninput="jalankanFilterData()">
+                    <div class="form-group"><label>Cari WO / CC</label><input type="text" id="filter_wo_cc"
+                            class="form-control" placeholder="Ketik No. WO atau CC..." oninput="jalankanFilterData()">
                     </div>
+                    <div class="form-group"><label>Cari Spesifikasi / Keterangan</label><input type="text"
+                            id="filter_keterangan" class="form-control" placeholder="Ketik kata kunci..."
+                            oninput="jalankanFilterData()"></div>
                     <div class="form-group">
-                        <label>Cari Spesifikasi / Keterangan</label>
-                        <input type="text" id="filter_keterangan" class="form-control"
-                            placeholder="Cari spesifikasi / barang / PRT..." oninput="jalankanFilterData()">
-                    </div>
-                    <div class="form-group">
-                        <label>Filter Status PR</label>
+                        <label>Filter Status</label>
                         <select id="filter_status" class="form-control" onchange="jalankanFilterData()">
-                            <option value="">-- Semua Status --</option>
+                            <option value="">-- Semua --</option>
                             <option value="Belum Dibuatkan">Belum Dibuatkan</option>
                             <option value="Sudah Dibuatkan">Sudah Dibuatkan</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- TABLE -->
                 <div class="table-container">
                     <table>
                         <thead>
@@ -471,8 +408,8 @@
                                 <th onclick="sortTabel('no_wo')">No WO <span id="sort_no_wo"></span></th>
                                 <th onclick="sortTabel('cost_center')">Cost Center <span id="sort_cost_center"></span>
                                 </th>
-                                <th onclick="sortTabel('spesifikasi')">Spesifikasi Material <span
-                                        id="sort_spesifikasi"></span></th>
+                                <th onclick="sortTabel('spesifikasi')">Spesifikasi <span id="sort_spesifikasi"></span>
+                                </th>
                                 <th onclick="sortTabel('keterangan')">Keterangan <span id="sort_keterangan"></span></th>
                                 <th onclick="sortTabel('no_prt')">No. PRT <span id="sort_no_prt"></span></th>
                                 <th onclick="sortTabel('jumlah')">Jumlah <span id="sort_jumlah"></span></th>
@@ -481,102 +418,64 @@
                                 <th onclick="sortTabel('pemohon')">Pemohon <span id="sort_pemohon"></span></th>
                                 <th onclick="sortTabel('ts_pemohon')">Timestamp <span id="sort_ts_pemohon"></span></th>
                                 <th onclick="sortTabel('pembuat')">Pembuat <span id="sort_pembuat"></span></th>
-                                <th onclick="sortTabel('ts_pembuat')">Timestamp Buat <span id="sort_ts_pembuat"></span>
-                                </th>
+                                <th onclick="sortTabel('ts_pembuat')">TS Buat <span id="sort_ts_pembuat"></span></th>
                                 <th onclick="sortTabel('no_pr')">No PR <span id="sort_no_pr"></span></th>
                                 <th>File</th>
                                 <th onclick="sortTabel('status')">Status <span id="sort_status"></span></th>
-                                <th id="thAksi" style="cursor: default;">Aksi</th>
+                                <th id="thAksi">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelBody">
-                            <!-- Data dirender via JS -->
-                        </tbody>
+                        <tbody id="tabelBody"></tbody>
                     </table>
                 </div>
             </div>
-
             <div
-                style="text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
-                Created by Maintenance Engineering 2026
-            </div>
-
+                style="text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--muted); font-weight: 600;">
+                Created by Maintenance Engineering 2026</div>
         </div>
-
     </div>
 
-    <!-- MODAL EDIT DATA -->
+    <!-- MODAL EDIT -->
     <div id="editModal" class="modal hide-element">
         <div class="modal-content">
             <div class="form-title">Update Data PR</div>
             <input type="hidden" id="edit_rowId">
-            <input type="hidden" id="edit_deleteFileFlag" value="false">
-
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>No. WO</label>
-                <input type="text" id="edit_wo" class="form-control">
-            </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>Cost Center</label>
-                <input type="text" id="edit_cc" class="form-control">
-            </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>Spesifikasi Material</label>
-                <input type="text" id="edit_spesifikasi" class="form-control">
-            </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>Keterangan Material</label>
-                <input type="text" id="edit_keterangan" class="form-control">
-            </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>No. PRT</label>
-                <input type="text" id="edit_prt" class="form-control">
-            </div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>No. WO</label><input type="text" id="edit_wo"
+                    class="form-control" placeholder="26050336"></div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>Cost Center</label><input type="text"
+                    id="edit_cc" class="form-control" placeholder="CC-401"></div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>Spesifikasi Material</label><input type="text"
+                    id="edit_spesifikasi" class="form-control" placeholder="Ketik spesifikasi..."></div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>Keterangan Material</label><input type="text"
+                    id="edit_keterangan" class="form-control" placeholder="Ketik keterangan..."></div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>No. PRT</label><input type="text" id="edit_prt"
+                    class="form-control" placeholder="PRT-2026-001"></div>
             <div class="form-grid" style="margin-bottom: 8px;">
-                <div class="form-group">
-                    <label>Jumlah</label>
-                    <input type="number" id="edit_jumlah" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>UOM</label>
-                    <input type="text" id="edit_uom" class="form-control">
-                </div>
+                <div class="form-group"><label>Jumlah</label><input type="number" id="edit_jumlah" class="form-control"
+                        placeholder="0"></div>
+                <div class="form-group"><label>UOM</label><input type="text" id="edit_uom" class="form-control"
+                        placeholder="PCS"></div>
             </div>
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>Harga</label>
-                <input type="number" id="edit_harga" class="form-control">
-            </div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>Harga</label><input type="number" id="edit_harga"
+                    class="form-control" placeholder="0"></div>
 
-            <!-- MANAJEMEN FILE/GAMBAR MODAL -->
             <div class="form-group"
-                style="margin-bottom: 12px; border: 1px dashed var(--border-color); padding: 10px; border-radius: 6px;">
+                style="margin-bottom: 12px; border: 1px dashed var(--border); padding: 10px; border-radius: 6px;">
                 <label style="color: #38bdf8; font-weight: 600;">File/Gambar Pendukung</label>
-
-                <!-- Status File Saat Ini -->
                 <div id="edit_fileCurrentBox"
-                    style="margin-top: 4px; font-size: 0.8rem; display: flex; align-items: center; justify-content: space-between;">
-                    <span>Status File: <a id="edit_fileCurrentLink" href="#" target="_blank"
-                            style="color:#38bdf8; text-decoration:underline;">-</a></span>
-                    <button type="button" id="edit_btnDeleteFile" class="btn btn-danger"
-                        style="padding: 3px 8px; font-size: 0.72rem;" onclick="tandaiHapusFile()">Hapus File</button>
-                </div>
-
-                <!-- Input Upload File Baru -->
-                <div style="margin-top: 8px;">
-                    <label style="font-size: 0.72rem; color: var(--text-muted);">Ganti / Upload File Baru:</label>
-                    <input type="file" id="edit_fileInput" class="form-control" style="margin-top:2px;"
+                    style="margin-top: 8px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px;"></div>
+                <div style="margin-top: 10px;">
+                    <label style="font-size: 0.72rem; color: var(--muted);">Tambah File Baru:</label>
+                    <input type="file" id="edit_fileInput" class="form-control" multiple
                         onchange="tampilkanPratinjauGambar(this, 'wrapperEditPreview', 'imageEditPreview')">
                 </div>
-
                 <div id="wrapperEditPreview" style="display: none; margin-top: 8px;">
-                    <img id="imageEditPreview" src="" alt="Preview" style="max-height: 80px; border-radius: 4px;">
+                    <img id="imageEditPreview" src="" style="max-height: 80px;">
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 8px;">
-                <label>No. PR</label>
-                <input type="text" id="edit_pr" class="form-control" placeholder="Masukkan Nomor PR">
-            </div>
+            <div class="form-group" style="margin-bottom: 8px;"><label>No. PR</label><input type="text" id="edit_pr"
+                    class="form-control" placeholder="Masukkan No. PR resmi"></div>
             <div class="form-group" style="margin-bottom: 16px;">
                 <label>Status</label>
                 <select id="edit_status" class="form-control">
@@ -586,392 +485,318 @@
             </div>
             <div style="display: flex; justify-content: flex-end; gap: 8px;">
                 <button class="btn btn-danger" onclick="tutupModalEdit()">Batal</button>
-                <button class="btn btn-success" id="btnSimpanEdit" onclick="simpanPerubahan()">Simpan Perubahan</button>
+                <button class="btn btn-success" id="btnSimpanEdit" onclick="simpanPerubahan()">Simpan</button>
             </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFIKASI -->
     <div id="customToast"></div>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz2EiBPJENamUEA5ghcmPQbOvF6v-vyEL81mL9yzFJd0fggmYCHCC7QaRaoHpCvH5EP4Q/exec";
+        let currentUser = "", currentRole = "", localDataCache = [], refreshTimer, idleTimer, sortColumn = "id", sortAscending = false;
+        let currentRemainingFiles = [];
 
-        let currentUser = "";
-        let currentRole = "";
-        let localDataCache = [];
-        let refreshTimer;
+        const val = id => document.getElementById(id).value;
+        const setVal = (id, v) => document.getElementById(id).value = v;
 
-        let sortColumn = "id";
-        let sortAscending = false;
+        function resetIdleTimer() {
+            if (!currentUser) return;
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => { tampilkanNotifikasi("Sesi berakhir (idle 5m)."); logout(); }, 300000);
+        }
+
+        function startIdleMonitoring() {
+            ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'].forEach(e => window.addEventListener(e, resetIdleTimer, true));
+            resetIdleTimer();
+        }
 
         async function callAPI(payload) {
             try {
-                const response = await fetch(API_URL, {
+                const res = await fetch(API_URL, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8"
-                    },
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
-                return await response.json();
+                return await res.json();
             } catch (err) {
-                console.error("API Error:", err);
-                return { success: false, message: "Gagal terhubung ke server Google!" };
+                console.error("API Call Error:", err);
+                return { success: false, message: "Gagal terhubung server!" };
             }
         }
 
         function tampilkanNotifikasi(pesan) {
             const toast = document.getElementById("customToast");
-            if (toast) {
-                toast.innerText = pesan;
-                toast.classList.add("show");
-                setTimeout(() => {
-                    toast.classList.remove("show");
-                }, 3000);
-            } else {
-                alert(pesan);
-            }
+            toast.innerText = pesan; toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3000);
         }
 
         function tampilkanPratinjauGambar(input, wrapperId, imgId) {
-            const wrapper = document.getElementById(wrapperId);
-            const preview = document.getElementById(imgId);
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        preview.src = e.target.result;
-                        wrapper.style.display = "block";
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    wrapper.style.display = "none";
-                    preview.src = "";
-                }
-            } else {
-                wrapper.style.display = "none";
-                preview.src = "";
-            }
+            const wrapper = document.getElementById(wrapperId), preview = document.getElementById(imgId);
+            if (input.files && input.files[0] && input.files[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = e => { preview.src = e.target.result; wrapper.style.display = "block"; };
+                reader.readAsDataURL(input.files[0]);
+            } else { wrapper.style.display = "none"; preview.src = ""; }
+        }
+
+        function renderDashboardUI() {
+            document.getElementById("loginBox").classList.add("hide-element");
+            document.getElementById("dashboard").classList.remove("hide-element");
+            document.getElementById("userDisplay").innerText = currentUser;
+            document.getElementById("roleDisplay").innerText = `(${currentRole})`;
+            document.getElementById("panelPemohon").classList.toggle("hide-element", String(currentRole).trim().toLowerCase() !== "pemohon");
         }
 
         async function login() {
-            const user = document.getElementById("username").value;
-            const pass = document.getElementById("password").value;
-            const alertBox = document.getElementById("loginAlert");
+            const user = val("username"), pass = val("password"), alertBox = document.getElementById("loginAlert");
+            const btn = document.getElementById("btnLogin");
             alertBox.classList.add("hide-element");
 
             if (!user || !pass) {
-                alertBox.innerText = "Username dan Password tidak boleh kosong!";
+                alertBox.innerText = "Username/Password kosong!";
                 alertBox.classList.remove("hide-element");
                 return;
             }
 
-            const res = await callAPI({
-                action: "checkLogin",
-                username: user,
-                password: pass
-            });
+            btn.innerText = "Memproses...";
+            btn.disabled = true;
+
+            const res = await callAPI({ action: "checkLogin", username: user, password: pass });
 
             if (res && res.success) {
                 currentUser = res.username;
                 currentRole = res.role;
-
-                document.getElementById("loginBox").classList.add("hide-element");
-                document.getElementById("dashboard").classList.remove("hide-element");
-                document.getElementById("userDisplay").innerText = currentUser;
-                document.getElementById("roleDisplay").innerText = `(${currentRole})`;
-
-                const roleClean = String(currentRole).trim().toLowerCase();
-
-                if (roleClean === "pemohon") {
-                    document.getElementById("panelPemohon").classList.remove("hide-element");
-                } else {
-                    document.getElementById("panelPemohon").classList.add("hide-element");
-                }
-
-                document.getElementById("thAksi").classList.remove("hide-element");
-
-                document.getElementById("filter_pemohon").value = "";
-                document.getElementById("filter_wo_cc").value = "";
-                document.getElementById("filter_keterangan").value = "";
-                document.getElementById("filter_status").value = "";
-
+                localStorage.setItem("pr_user", currentUser);
+                localStorage.setItem("pr_role", currentRole);
+                renderDashboardUI();
+                startIdleMonitoring();
                 await loadDataRealtime();
+                clearInterval(refreshTimer);
                 refreshTimer = setInterval(loadDataRealtime, 10000);
             } else {
-                alertBox.innerText = (res && res.message) ? res.message : "Login gagal!";
+                alertBox.innerText = res.message || "Login gagal!";
                 alertBox.classList.remove("hide-element");
+            }
+
+            btn.innerText = "Login";
+            btn.disabled = false;
+        }
+
+        async function checkSavedSession() {
+            const u = localStorage.getItem("pr_user"), r = localStorage.getItem("pr_role");
+            if (u && r) {
+                currentUser = u;
+                currentRole = r;
+                renderDashboardUI();
+                startIdleMonitoring();
+                await loadDataRealtime();
+                clearInterval(refreshTimer);
+                refreshTimer = setInterval(loadDataRealtime, 10000);
             }
         }
 
         async function loadDataRealtime() {
             if (!currentUser) return;
-
-            const res = await callAPI({
-                action: "getRealtimeDataBackend",
-                currentUser: currentUser,
-                currentRole: currentRole
-            });
-
-            if (Array.isArray(res)) {
-                localDataCache = res;
-            } else if (res && Array.isArray(res.data)) {
-                localDataCache = res.data;
-            } else {
-                localDataCache = [];
-            }
-
+            const res = await callAPI({ action: "getRealtimeDataBackend", currentUser, currentRole });
+            localDataCache = Array.isArray(res) ? res : (res?.data || []);
             jalankanFilterData();
         }
 
-        function sortTabel(column) {
-            if (sortColumn === column) {
-                sortAscending = !sortAscending;
-            } else {
-                sortColumn = column;
-                sortAscending = true;
-            }
+        function sortTabel(col) {
+            sortAscending = (sortColumn === col) ? !sortAscending : true;
+            sortColumn = col;
             jalankanFilterData();
-        }
-
-        function updateSortIndicators() {
-            const columns = ['id', 'no_wo', 'cost_center', 'spesifikasi', 'keterangan', 'no_prt', 'jumlah', 'uom', 'harga', 'pemohon', 'ts_pemohon', 'pembuat', 'ts_pembuat', 'no_pr', 'status'];
-            columns.forEach(col => {
-                const el = document.getElementById(`sort_${col}`);
-                if (el) {
-                    if (col === sortColumn) {
-                        el.innerText = sortAscending ? " ▲" : " ▼";
-                    } else {
-                        el.innerText = "";
-                    }
-                }
-            });
         }
 
         function jalankanFilterData() {
-            const valPemohon = (document.getElementById("filter_pemohon").value || "").toLowerCase().trim();
-            const valWoCc = (document.getElementById("filter_wo_cc").value || "").toLowerCase().trim();
-            const valKeterangan = (document.getElementById("filter_keterangan").value || "").toLowerCase().trim();
-            const valStatus = document.getElementById("filter_status").value || "";
+            const fP = val("filter_pemohon").toLowerCase().trim();
+            const fW = val("filter_wo_cc").toLowerCase().trim();
+            const fK = val("filter_keterangan").toLowerCase().trim();
+            const fS = val("filter_status").toLowerCase().trim();
 
             const tbody = document.getElementById("tabelBody");
-            if (!tbody) return;
-
             tbody.innerHTML = "";
 
-            if (!Array.isArray(localDataCache)) {
-                localDataCache = [];
-            }
+            let filtered = localDataCache.filter(i => {
+                if (!i) return false;
+                const itemStatus = String(i.status || "Belum Dibuatkan").toLowerCase().trim();
 
-            let filteredData = localDataCache.filter(item => {
-                if (!item) return false;
-                const pemohonStr = String(item.pemohon || "").toLowerCase();
-                const woStr = String(item.no_wo || "").toLowerCase();
-                const ccStr = String(item.cost_center || "").toLowerCase();
-                const spekStr = String(item.spesifikasi || "").toLowerCase();
-                const ketStr = String(item.keterangan || "").toLowerCase();
-                const prtStr = String(item.no_prt || "").toLowerCase();
-                const statusStr = String(item.status || "");
+                const matchPemohon = String(i.pemohon || "").toLowerCase().includes(fP);
+                const matchWO = String(i.no_wo || "").toLowerCase().includes(fW) || String(i.cost_center || "").toLowerCase().includes(fW);
+                const matchKet = String(i.spesifikasi || "").toLowerCase().includes(fK) || String(i.keterangan || "").toLowerCase().includes(fK) || String(i.no_prt || "").toLowerCase().includes(fK);
+                const matchStatus = !fS || (itemStatus === fS);
 
-                const matchPemohon = pemohonStr.includes(valPemohon);
-                const matchWoCc = woStr.includes(valWoCc) || ccStr.includes(valWoCc);
-                const matchKeterangan = spekStr.includes(valKeterangan) || ketStr.includes(valKeterangan) || prtStr.includes(valKeterangan);
-                const matchStatus = valStatus === "" || statusStr === valStatus;
-
-                return matchPemohon && matchWoCc && matchKeterangan && matchStatus;
+                return matchPemohon && matchWO && matchKet && matchStatus;
             });
 
-            filteredData.sort((a, b) => {
-                let valA = a[sortColumn] !== undefined && a[sortColumn] !== null ? a[sortColumn] : "";
-                let valB = b[sortColumn] !== undefined && b[sortColumn] !== null ? b[sortColumn] : "";
-
-                if (!isNaN(valA) && !isNaN(valB) && valA !== "" && valB !== "") {
-                    valA = Number(valA);
-                    valB = Number(valB);
-                } else {
-                    valA = String(valA).toLowerCase();
-                    valB = String(valB).toLowerCase();
-                }
-
-                if (valA < valB) return sortAscending ? -1 : 1;
-                if (valA > valB) return sortAscending ? 1 : -1;
-                return 0;
+            filtered.sort((a, b) => {
+                let vA = a[sortColumn] ?? "", vB = b[sortColumn] ?? "";
+                if (!isNaN(vA) && !isNaN(vB) && vA !== "" && vB !== "") { vA = +vA; vB = +vB; }
+                else { vA = String(vA).toLowerCase(); vB = String(vB).toLowerCase(); }
+                return vA < vB ? (sortAscending ? -1 : 1) : vA > vB ? (sortAscending ? 1 : -1) : 0;
             });
 
-            updateSortIndicators();
+            ['id', 'no_wo', 'cost_center', 'spesifikasi', 'keterangan', 'no_prt', 'jumlah', 'uom', 'harga', 'pemohon', 'ts_pemohon', 'pembuat', 'ts_pembuat', 'no_pr', 'status'].forEach(c => {
+                const el = document.getElementById(`sort_${c}`);
+                if (el) el.innerText = (c === sortColumn) ? (sortAscending ? " ▲" : " ▼") : "";
+            });
 
-            const visibleCols = document.querySelectorAll("table thead th:not(.hide-element)").length || 17;
-
-            if (filteredData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="${visibleCols}" style="text-align: center; color: var(--text-muted); padding: 20px;">Data tidak ditemukan.</td></tr>`;
+            if (!filtered.length) {
+                tbody.innerHTML = `<tr><td colspan="17" style="text-align:center; padding:20px;">Data tidak ditemukan.</td></tr>`;
                 return;
             }
 
-            filteredData.forEach(item => {
-                try {
-                    const rawStatus = String(item.status || "Belum Dibuatkan").trim();
-                    const isSudah = rawStatus.toLowerCase() === "sudah dibuatkan";
-                    const badgeClass = isSudah ? "badge-sudah" : "badge-belum";
+            filtered.forEach(item => {
+                const statusText = String(item.status || "Belum Dibuatkan").trim();
+                const isSudah = statusText.toLowerCase() === "sudah dibuatkan";
+                const actionBtn = !isSudah ? `<td style="text-align:center;"><button class="btn btn-warning" onclick="bukaModalEdit(${item.rowId})">Edit</button></td>` : `<td style="text-align:center; color:var(--muted); font-style:italic;">Selesai</td>`;
+                const hg = (item.harga && !isNaN(item.harga)) ? "Rp " + Number(item.harga).toLocaleString('id-ID') : (item.harga || "-");
 
-                    let actionBtn = "";
-                    if (!isSudah) {
-                        actionBtn = `<td style="text-align:center;"><button class="btn btn-warning" onclick="bukaModalEdit(${item.rowId})">Edit</button></td>`;
-                    } else {
-                        actionBtn = `<td style="text-align:center; color: var(--text-muted); font-style: italic;">Selesai</td>`;
-                    }
-
-                    let hargaFormatted = "-";
-                    if (item.harga !== undefined && item.harga !== null && item.harga !== "" && item.harga !== 0) {
-                        const numHarga = Number(item.harga);
-                        hargaFormatted = !isNaN(numHarga) ? "Rp " + numHarga.toLocaleString('id-ID') : item.harga;
-                    }
-
-                    const linkFile = item.link_file || "-";
-                    const fileLinkBtn = (linkFile && linkFile !== "-")
-                        ? `<a href="${linkFile}" target="_blank" style="color:#38bdf8; text-decoration:underline;">Lihat File</a>`
-                        : "-";
-
-                    const tr = document.createElement("tr");
-
-                    tr.innerHTML = `
-                        <td><b>#${item.id !== undefined ? item.id : '-'}</b></td>
-                        <td>${item.no_wo || '-'}</td>
-                        <td>${item.cost_center || '-'}</td>
-                        <td>${item.spesifikasi || '-'}</td>
-                        <td>${item.keterangan || '-'}</td>
-                        <td>${item.no_prt || '-'}</td>
-                        <td>${item.jumlah !== undefined ? item.jumlah : 0}</td>
-                        <td><span style="color:var(--text-muted); font-size:11px; font-weight:600; text-transform:uppercase;">${item.uom || '-'}</span></td>
-                        <td>${hargaFormatted}</td>
-                        <td>${item.pemohon || '-'}</td>
-                        <td style="color: var(--text-muted); font-size:11px;">${item.ts_pemohon || '-'}</td>
-                        <td>${item.pembuat || '-'}</td>
-                        <td style="color: var(--text-muted); font-size:11px;">${item.ts_pembuat || '-'}</td>
-                        <td>${item.no_pr || '-'}</td>
-                        <td>${fileLinkBtn}</td>
-                        <td><span class="badge ${badgeClass}">${rawStatus}</span></td>
-                        ${actionBtn}
-                    `;
-                    tbody.appendChild(tr);
-                } catch (err) {
-                    console.error("Error rendering row:", err, item);
+                let linkFileHtml = "-";
+                if (item.link_file && item.link_file !== "-") {
+                    let urls = String(item.link_file).split(",");
+                    linkFileHtml = urls.map((u, idx) => `<a href="${u.trim()}" target="_blank" style="color:#38bdf8;">File ${idx + 1}</a>`).join(" | ");
                 }
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><b>#${item.id ?? '-'}</b></td>
+                    <td class="txt-wo">${item.no_wo || '-'}</td>
+                    <td>${item.cost_center || '-'}</td>
+                    <td>${item.spesifikasi || '-'}</td>
+                    <td>${item.keterangan || '-'}</td>
+                    <td class="txt-prt">${item.no_prt || '-'}</td>
+                    <td>${item.jumlah ?? 0}</td>
+                    <td><span style="font-size:11px; font-weight:600; text-transform:uppercase;">${item.uom || '-'}</span></td>
+                    <td>${hg}</td>
+                    <td>${item.pemohon || '-'}</td>
+                    <td style="font-size:11px; color:var(--muted);">${item.ts_pemohon || '-'}</td>
+                    <td>${item.pembuat || '-'}</td>
+                    <td style="font-size:11px; color:var(--muted);">${item.ts_pembuat || '-'}</td>
+                    <td class="txt-pr">${item.no_pr || '-'}</td>
+                    <td>${linkFileHtml}</td>
+                    <td><span class="badge ${isSudah ? 'badge-sudah' : 'badge-belum'}">${statusText}</span></td>
+                    ${actionBtn}
+                `;
+                tbody.appendChild(tr);
             });
         }
 
+        async function getFilesArr(inputId) {
+            const input = document.getElementById(inputId);
+            let filesArr = [];
+            if (input && input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const file = input.files[i];
+                    const base64 = await new Promise(r => {
+                        const rd = new FileReader();
+                        rd.onload = e => r(e.target.result.split(',')[1]);
+                        rd.readAsDataURL(file);
+                    });
+                    filesArr.push({ base64Str: base64, mimeType: file.type, name: file.name });
+                }
+            }
+            return filesArr;
+        }
+
         async function submitFormPRV2(e) {
-            if (e) e.preventDefault();
-            const btnKirim = document.getElementById("btnKirimPR");
-            const textAwalBtn = btnKirim.innerText;
-            btnKirim.innerText = "Memproses...";
-            btnKirim.disabled = true;
+            e.preventDefault();
+            const btn = document.getElementById("btnKirimPR");
+            btn.innerText = "Memproses...";
+            btn.disabled = true;
+
+            const noWO = val("req_wo").toUpperCase().trim();
+            let ketInput = val("req_keterangan").toUpperCase().trim();
+
+            let keteranganFormatted = ketInput;
+            if (noWO) {
+                keteranganFormatted = `WO${noWO} ---> ${ketInput}`;
+            }
 
             const payload = {
-                no_wo: document.getElementById("req_wo").value,
-                cost_center: document.getElementById("req_cc").value,
-                spesifikasi: document.getElementById("req_spesifikasi").value,
-                keterangan: document.getElementById("req_keterangan").value,
-                no_prt: document.getElementById("req_prt").value,
-                jumlah: document.getElementById("req_jumlah").value,
-                uom: document.getElementById("req_uom").value,
-                harga: document.getElementById("req_harga").value
+                no_wo: noWO,
+                cost_center: val("req_cc").toUpperCase().trim(),
+                spesifikasi: val("req_spesifikasi").toUpperCase().trim(),
+                keterangan: keteranganFormatted,
+                no_prt: val("req_prt").toUpperCase().trim(),
+                jumlah: val("req_jumlah"),
+                uom: val("req_uom").toUpperCase().trim(),
+                harga: val("req_harga")
             };
 
-            const fileInput = document.getElementById("req_file");
-            let fileObj = null;
+            const filesArr = await getFilesArr("req_file");
+            const res = await callAPI({ action: "tambahPRV2", payload, filesArr, currentUser });
 
-            if (fileInput && fileInput.files && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const base64Content = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
-                    reader.readAsDataURL(file);
-                });
-                fileObj = {
-                    base64Str: base64Content,
-                    mimeType: file.type,
-                    name: file.name
-                };
-            }
-
-            const res = await callAPI({
-                action: "tambahPRV2",
-                payload: payload,
-                fileObj: fileObj,
-                currentUser: currentUser
-            });
-
-            if (res && res.success) {
+            if (res?.success) {
                 tampilkanNotifikasi("Berhasil Mengajukan PR!");
                 document.getElementById("formRequest").reset();
-                const wrapperPreview = document.getElementById("wrapperPreview");
-                if (wrapperPreview) wrapperPreview.style.display = "none";
+                document.getElementById("wrapperPreview").style.display = "none";
                 await loadDataRealtime();
             } else {
-                alert((res && res.message) ? res.message : "Gagal mengajukan PR");
+                alert(res?.message || "Gagal mengajukan PR");
             }
 
-            btnKirim.innerText = textAwalBtn;
-            btnKirim.disabled = false;
+            btn.innerText = "Kirim Pengajuan PR";
+            btn.disabled = false;
         }
 
         function bukaModalEdit(rowId) {
             const item = localDataCache.find(x => x.rowId === rowId);
             if (!item) return;
 
-            if (String(item.status || "").trim().toLowerCase() === "sudah dibuatkan") {
-                tampilkanNotifikasi("Data ini sudah dibuatkan PR dan tidak dapat diubah lagi!");
-                return;
-            }
-
-            document.getElementById("edit_rowId").value = item.rowId;
-            document.getElementById("edit_wo").value = item.no_wo || "";
-            document.getElementById("edit_cc").value = item.cost_center || "";
-            document.getElementById("edit_spesifikasi").value = item.spesifikasi || "";
-            document.getElementById("edit_keterangan").value = item.keterangan || "";
-            document.getElementById("edit_prt").value = item.no_prt || "";
-            document.getElementById("edit_jumlah").value = item.jumlah || "";
-            document.getElementById("edit_uom").value = item.uom || "";
-            document.getElementById("edit_harga").value = item.harga || "";
-            document.getElementById("edit_pr").value = item.no_pr || "";
-            document.getElementById("edit_status").value = item.status || "Belum Dibuatkan";
-
-            // Reset manajemen file
-            document.getElementById("edit_deleteFileFlag").value = "false";
-            document.getElementById("edit_fileInput").value = "";
+            setVal("edit_rowId", item.rowId);
+            setVal("edit_wo", item.no_wo || "");
+            setVal("edit_cc", item.cost_center || "");
+            setVal("edit_spesifikasi", item.spesifikasi || "");
+            setVal("edit_keterangan", item.keterangan || "");
+            setVal("edit_prt", item.no_prt || "");
+            setVal("edit_jumlah", item.jumlah || "");
+            setVal("edit_uom", item.uom || "");
+            setVal("edit_harga", item.harga || "");
+            setVal("edit_pr", item.no_pr || "");
+            setVal("edit_status", item.status || "Belum Dibuatkan");
+            setVal("edit_fileInput", "");
             document.getElementById("wrapperEditPreview").style.display = "none";
 
             const fileLink = item.link_file || "";
-            const fileCurrentLink = document.getElementById("edit_fileCurrentLink");
-            const btnDeleteFile = document.getElementById("edit_btnDeleteFile");
-
             if (fileLink && fileLink !== "-") {
-                fileCurrentLink.innerText = "Lihat File Terlampir";
-                fileCurrentLink.href = fileLink;
-                btnDeleteFile.style.display = "inline-block";
+                currentRemainingFiles = fileLink.split(",").map(u => u.trim()).filter(u => u !== "");
             } else {
-                fileCurrentLink.innerText = "Tidak ada file";
-                fileCurrentLink.removeAttribute("href");
-                btnDeleteFile.style.display = "none";
+                currentRemainingFiles = [];
             }
 
-            const roleClean = String(currentRole || "").trim().toLowerCase();
-            const isPemohon = roleClean === "pemohon";
+            renderDaftarFileEdit();
 
+            const isPemohon = String(currentRole).trim().toLowerCase() === "pemohon";
             document.getElementById("edit_pr").disabled = isPemohon;
             document.getElementById("edit_status").disabled = isPemohon;
-
             document.getElementById("editModal").classList.remove("hide-element");
         }
 
-        function tandaiHapusFile() {
-            document.getElementById("edit_deleteFileFlag").value = "true";
-            const fileCurrentLink = document.getElementById("edit_fileCurrentLink");
-            fileCurrentLink.innerText = "Akan dihapus saat disimpan";
-            fileCurrentLink.style.color = "#ef4444";
-            document.getElementById("edit_btnDeleteFile").style.display = "none";
+        function renderDaftarFileEdit() {
+            const box = document.getElementById("edit_fileCurrentBox");
+            box.innerHTML = "";
+
+            if (currentRemainingFiles.length === 0) {
+                box.innerHTML = `<span style="color:var(--muted); font-style:italic;">Tidak ada file terlampir.</span>`;
+                return;
+            }
+
+            currentRemainingFiles.forEach((url, idx) => {
+                const itemDiv = document.createElement("div");
+                itemDiv.style.cssText = "display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px;";
+                itemDiv.innerHTML = `
+                    <a href="${url}" target="_blank" style="color:#38bdf8; text-decoration:none;">📄 File ${idx + 1}</a>
+                    <button type="button" class="btn btn-danger" style="padding: 2px 6px; font-size: 0.7rem;" onclick="hapusFileSpesifik(${idx})">Hapus</button>
+                `;
+                box.appendChild(itemDiv);
+            });
+        }
+
+        function hapusFileSpesifik(index) {
+            currentRemainingFiles.splice(index, 1);
+            renderDaftarFileEdit();
         }
 
         function tutupModalEdit() {
@@ -979,74 +804,56 @@
         }
 
         async function simpanPerubahan() {
-            const btnSimpan = document.getElementById("btnSimpanEdit");
-            const textAwal = btnSimpan.innerText;
-            btnSimpan.innerText = "Menyimpan...";
-            btnSimpan.disabled = true;
-
-            const deleteFile = document.getElementById("edit_deleteFileFlag").value === "true";
-            const fileInput = document.getElementById("edit_fileInput");
-            let fileObj = null;
-
-            if (fileInput && fileInput.files && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const base64Content = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result.split(',')[1]);
-                    reader.readAsDataURL(file);
-                });
-                fileObj = {
-                    base64Str: base64Content,
-                    mimeType: file.type,
-                    name: file.name
-                };
-            }
+            const btn = document.getElementById("btnSimpanEdit");
+            btn.innerText = "Menyimpan...";
+            btn.disabled = true;
 
             const payload = {
-                rowId: document.getElementById("edit_rowId").value,
-                no_wo: document.getElementById("edit_wo").value,
-                cost_center: document.getElementById("edit_cc").value,
-                spesifikasi: document.getElementById("edit_spesifikasi").value,
-                keterangan: document.getElementById("edit_keterangan").value,
-                no_prt: document.getElementById("edit_prt").value,
-                jumlah: document.getElementById("edit_jumlah").value,
-                uom: document.getElementById("edit_uom").value,
-                harga: document.getElementById("edit_harga").value,
-                no_pr: document.getElementById("edit_pr").value,
-                status: document.getElementById("edit_status").value,
-                deleteFile: deleteFile
+                rowId: val("edit_rowId"),
+                no_wo: val("edit_wo").toUpperCase().trim(),
+                cost_center: val("edit_cc").toUpperCase().trim(),
+                spesifikasi: val("edit_spesifikasi").toUpperCase().trim(),
+                keterangan: val("edit_keterangan").toUpperCase().trim(),
+                no_prt: val("edit_prt").toUpperCase().trim(),
+                jumlah: val("edit_jumlah"),
+                uom: val("edit_uom").toUpperCase().trim(),
+                harga: val("edit_harga"),
+                no_pr: val("edit_pr").toUpperCase().trim(),
+                status: val("edit_status"),
+                remainingFiles: currentRemainingFiles.join(",")
             };
 
-            const res = await callAPI({
-                action: "updatePRByPembuat",
-                payload: payload,
-                fileObj: fileObj,
-                currentUser: currentUser
-            });
+            const filesArr = await getFilesArr("edit_fileInput");
+            const res = await callAPI({ action: "updatePRByPembuat", payload, filesArr, currentUser });
 
-            if (res && res.success) {
+            if (res?.success) {
                 tampilkanNotifikasi("Data PR Berhasil Diupdate!");
                 tutupModalEdit();
                 await loadDataRealtime();
             } else {
-                alert((res && res.message) ? res.message : "Gagal memperbarui data!");
+                alert(res?.message || "Gagal memperbarui data!");
             }
 
-            btnSimpan.innerText = textAwal;
-            btnSimpan.disabled = false;
+            btn.innerText = "Simpan";
+            btn.disabled = false;
         }
 
         function logout() {
             clearInterval(refreshTimer);
+            clearTimeout(idleTimer);
             currentUser = "";
             currentRole = "";
             localDataCache = [];
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
+            localStorage.removeItem("pr_user");
+            localStorage.removeItem("pr_role");
+            setVal("username", "");
+            setVal("password", "");
             document.getElementById("dashboard").classList.add("hide-element");
             document.getElementById("loginBox").classList.remove("hide-element");
-            tampilkanNotifikasi("Anda telah berhasil keluar dari sistem.");
+            tampilkanNotifikasi("Anda telah keluar.");
         }
+
+        checkSavedSession();
     </script>
 </body>
 

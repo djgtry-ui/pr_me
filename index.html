@@ -554,7 +554,7 @@
         async function loadDataRealtime() {
             if (!currentUser) return;
             const res = await callAPI({ action: "getRealtimeDataBackend", currentUser, currentRole });
-            localDataCache = Array.isArray(res) ? res : (res?.data || []);
+            localDataCache = Array.isArray(res) ? res : (res.data || []);
             jalankanFilterData();
         }
 
@@ -686,13 +686,13 @@
                 const filesArr = await getFilesArr("req_file");
                 const res = await callAPI({ action: "tambahPRV2", payload, filesArr, currentUser });
 
-                if (res?.success) {
+                if (res.success) {
                     tampilkanNotifikasi("Berhasil Mengajukan PR!");
                     document.getElementById("formRequest").reset();
                     document.getElementById("wrapperPreview").style.display = "none";
                     await loadDataRealtime();
                 } else {
-                    alert(res?.message || "Gagal mengajukan PR");
+                    alert(res.message || "Gagal mengajukan PR");
                 }
             } catch (err) {
                 alert("Terjadi kesalahan pengiriman!");
@@ -788,12 +788,12 @@
                 const filesArr = await getFilesArr("edit_fileInput");
                 const res = await callAPI({ action: "updatePRByPembuat", payload, filesArr, currentUser });
 
-                if (res?.success) {
+                if (res.success) {
                     tampilkanNotifikasi("Data PR Berhasil Diupdate!");
                     tutupModalEdit();
                     await loadDataRealtime();
                 } else {
-                    alert(res?.message || "Gagal memperbarui data!");
+                    alert(res.message || "Gagal memperbarui data!");
                 }
             } catch (err) {
                 alert("Terjadi kesalahan saat memperbarui!");

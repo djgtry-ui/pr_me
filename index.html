@@ -526,7 +526,7 @@
                     clearInterval(refreshTimer);
                     refreshTimer = setInterval(loadDataRealtime, 10000);
                 } else {
-                    alertBox.innerText = res.message || "Login gagal!";
+                    alertBox.innerText = (res && res.message) ? res.message : "Login gagal!";
                     alertBox.classList.remove("hide-element");
                 }
             } catch (err) {
@@ -554,7 +554,7 @@
         async function loadDataRealtime() {
             if (!currentUser) return;
             const res = await callAPI({ action: "getRealtimeDataBackend", currentUser, currentRole });
-            localDataCache = Array.isArray(res) ? res : (res.data || []);
+            localDataCache = Array.isArray(res) ? res : ((res && res.data) ? res.data : []);
             jalankanFilterData();
         }
 
@@ -586,7 +586,8 @@
             });
 
             filtered.sort((a, b) => {
-                let vA = a[sortColumn] ?? "", vB = b[sortColumn] ?? "";
+                let vA = (a && a[sortColumn] !== undefined) ? a[sortColumn] : "";
+                let vB = (b && b[sortColumn] !== undefined) ? b[sortColumn] : "";
                 if (!isNaN(vA) && !isNaN(vB) && vA !== "" && vB !== "") { vA = +vA; vB = +vB; }
                 else { vA = String(vA).toLowerCase(); vB = String(vB).toLowerCase(); }
                 return vA < vB ? (sortAscending ? -1 : 1) : vA > vB ? (sortAscending ? 1 : -1) : 0;
@@ -614,15 +615,18 @@
                     linkFileHtml = urls.map((u, idx) => `<a href="${u.trim()}" target="_blank" style="color:#38bdf8;">File ${idx + 1}</a>`).join(" | ");
                 }
 
+                const itemIdDisplay = (item && item.id !== undefined) ? item.id : '-';
+                const itemJumlahDisplay = (item && item.jumlah !== undefined) ? item.jumlah : 0;
+
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td><b>#${item.id ?? '-'}</b></td>
+                    <td><b>#${itemIdDisplay}</b></td>
                     <td class="txt-wo">${item.no_wo || '-'}</td>
                     <td>${item.cost_center || '-'}</td>
                     <td>${item.spesifikasi || '-'}</td>
                     <td>${item.keterangan || '-'}</td>
                     <td class="txt-prt">${item.no_prt || '-'}</td>
-                    <td>${item.jumlah ?? 0}</td>
+                    <td>${itemJumlahDisplay}</td>
                     <td><span style="font-size:11px; font-weight:600; text-transform:uppercase;">${item.uom || '-'}</span></td>
                     <td>${hg}</td>
                     <td>${item.pemohon || '-'}</td>
@@ -686,13 +690,13 @@
                 const filesArr = await getFilesArr("req_file");
                 const res = await callAPI({ action: "tambahPRV2", payload, filesArr, currentUser });
 
-                if (res.success) {
+                if (res && res.success) {
                     tampilkanNotifikasi("Berhasil Mengajukan PR!");
                     document.getElementById("formRequest").reset();
                     document.getElementById("wrapperPreview").style.display = "none";
                     await loadDataRealtime();
                 } else {
-                    alert(res.message || "Gagal mengajukan PR");
+                    alert((res && res.message) ? res.message : "Gagal mengajukan PR");
                 }
             } catch (err) {
                 alert("Terjadi kesalahan pengiriman!");
@@ -788,12 +792,12 @@
                 const filesArr = await getFilesArr("edit_fileInput");
                 const res = await callAPI({ action: "updatePRByPembuat", payload, filesArr, currentUser });
 
-                if (res.success) {
+                if (res && res.success) {
                     tampilkanNotifikasi("Data PR Berhasil Diupdate!");
                     tutupModalEdit();
                     await loadDataRealtime();
                 } else {
-                    alert(res.message || "Gagal memperbarui data!");
+                    alert((res && res.message) ? res.message : "Gagal memperbarui data!");
                 }
             } catch (err) {
                 alert("Terjadi kesalahan saat memperbarui!");
